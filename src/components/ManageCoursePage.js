@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 // import { Prompt } from 'react-router-dom';
 import CouseForm from './CourseForm';
 import * as courseAPI from '../api/courseApi';
+import { toast } from 'react-toastify';
 
 // arrow function -> drugi nacin deklariranja function komponenti
 const ManageCoursePage = props => {
@@ -32,6 +33,7 @@ const ManageCoursePage = props => {
         event.preventDefault();
         courseAPI.saveCourse(course).then( () => {
             props.history.push("/courses");
+            toast.success("Course saved");
         });
     }
 

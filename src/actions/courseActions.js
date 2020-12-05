@@ -12,3 +12,14 @@ export function saveCourse(course) {
         });
     })
 }
+
+// Action Creator
+export function loadCourses() {
+    return courseApi.getCourses().then(courses => {
+        dispatcher.dispatch({
+            // Action
+            actionType: actionTypes.LOAD_COURSES,
+            courses: courses
+        });
+    })
+}

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 // import { Prompt } from 'react-router-dom';
 import CouseForm from './CourseForm';
-import * as courseAPI from '../api/courseApi';
+import courseStore from '../stores/courseStore';
 import { toast } from 'react-toastify';
+import * as courseActions from '../actions/courseActions';
 
 // arrow function -> drugi nacin deklariranja function komponenti
 const ManageCoursePage = props => {
@@ -18,9 +19,7 @@ const ManageCoursePage = props => {
     useEffect( () => {
         const slug = props.match.params.slug; // from the path '/courses/:slug'
         if(slug) {
-            courseAPI.getCourseBySlug(slug).then( _course => {
-              setCourse(_course)  
-            });
+            setCourse(courseStore.getCourseBySlug(slug));
         }
     }, [props.match.params.slug]) // it will watch for that property change, useEffect will re-run
 
@@ -53,7 +52,7 @@ const ManageCoursePage = props => {
     function handleSubmit(event) {
         event.preventDefault();
         if(!formIsValid()) return;
-        courseAPI.saveCourse(course).then( () => {
+        courseActions.saveCourse(course).then( () => {
             props.history.push("/courses");
             toast.success("Course saved");
         });

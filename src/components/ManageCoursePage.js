@@ -8,6 +8,7 @@ import * as courseActions from '../actions/courseActions';
 // arrow function -> drugi nacin deklariranja function komponenti
 const ManageCoursePage = props => {
     const [errors, setErrors] = useState({});
+    const [courses, setCourses] = useState(courseStore.getCourses());
     const [course, setCourse] = useState({
         id: null,
         slug: "",
@@ -17,11 +18,20 @@ const ManageCoursePage = props => {
     });
 
     useEffect( () => {
+        //NOTIFY WHEN STORE CHANGES -> ADDCHANGELISTENER
+        courseStore.addChangeListener(onChange);
         const slug = props.match.params.slug; // from the path '/courses/:slug'
-        if(slug) {
+        if(courses.length === 0) {
+            courseActions.loadCourses();
+        } else {
             setCourse(courseStore.getCourseBySlug(slug));
         }
-    }, [props.match.params.slug]) // it will watch for that property change, useEffect will re-run
+        return () => courseStore.removeChangeListener(onChange);
+    }, [courses.length, props.match.params.slug]) // it will watch for that property change, useEffect will re-run
+
+    function onChange() {
+        setCourses(courseStore.getCourses());
+    }
 
     // function handleChange(event) {
     //     const updatedCourse = {...course, [event.target.name]: event.target.value};

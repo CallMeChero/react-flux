@@ -10,6 +10,7 @@ function CourseList(props) {
                     <th>Author</th>
                     <th>Author ID</th>
                     <th>Category</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,6 +21,9 @@ function CourseList(props) {
                         </td>
                         <td>{ course.authorId }</td>
                         <td>{ course.category }</td>
+                        <td>
+                            <button className="btn btn-outline-danger" onClick={ () => props.deleteCourse(course.id) }>Delete</button>
+                        </td>
                     </tr>
                 }) }
             </tbody>
@@ -29,6 +33,7 @@ function CourseList(props) {
 
 // Enable-ani u dev modu, za produckiju ne rade zbog perfomance issue-a
 CourseList.propTypes = {
+    deleteCourse: PropTypes.func.isRequired,
     courses: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,

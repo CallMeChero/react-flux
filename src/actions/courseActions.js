@@ -1,6 +1,7 @@
 import dispatcher from '../appDispatcher';
 import * as courseApi from '../api/courseApi';
 import actionTypes from './actionTypes';
+import { toast } from 'react-toastify';
 
 // Action Creator
 export function saveCourse(course) {
@@ -23,5 +24,17 @@ export function loadCourses() {
             actionType: actionTypes.LOAD_COURSES,
             courses: courses
         });
+    })
+}
+
+// Action Creator
+export function deleteCourse(courseId) {
+    return courseApi.deleteCourse(courseId).then(() => {
+        dispatcher.dispatch({
+            // Action
+            actionType: actionTypes.DELETE_COURSE,
+            courseId: courseId
+        });
+        toast.warn("Course has been deleted");
     })
 }

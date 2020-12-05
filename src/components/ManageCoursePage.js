@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { Prompt } from 'react-router-dom';
 import CouseForm from './CourseForm';
 import * as courseAPI from '../api/courseApi';
@@ -14,6 +14,15 @@ const ManageCoursePage = props => {
         authorId: null,
         category: ""
     });
+
+    useEffect( () => {
+        const slug = props.match.params.slug; // from the path '/courses/:slug'
+        if(slug) {
+            courseAPI.getCourseBySlug(slug).then( _course => {
+              setCourse(_course)  
+            });
+        }
+    }, [props.match.params.slug]) // it will watch for that property change, useEffect will re-run
 
     // function handleChange(event) {
     //     const updatedCourse = {...course, [event.target.name]: event.target.value};
